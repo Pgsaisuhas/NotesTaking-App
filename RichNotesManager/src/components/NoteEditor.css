@@ -1,0 +1,82 @@
+.note-editor {
+  padding: 0; /* Remove padding from container */
+  background-color: #ffffff;
+  height: 100%; /* Fill parent height */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Let Quill handle scrolling */
+}
+
+.editor-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e2e8f0; /* Tailwind gray-300 */
+    flex-shrink: 0; /* Prevent header shrinking */
+}
+
+.note-title-input {
+    flex-grow: 1;
+    border: none;
+    font-size: 1.4em; /* Larger title font */
+    font-weight: bold;
+    padding: 5px 0; /* Minimal padding */
+    margin-right: 15px;
+    outline: none; /* Remove focus outline */
+    color: #2d3748; /* Tailwind gray-800 */
+}
+.note-title-input::placeholder {
+    color: #a0aec0; /* Tailwind gray-500 */
+    font-weight: normal;
+}
+
+.save-status {
+    font-size: 0.8em;
+    color: #718096; /* Tailwind gray-600 */
+    font-style: italic;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Style ReactQuill container */
+.note-editor .ql-toolbar.ql-snow {
+    border: none; /* Remove top border */
+    border-bottom: 1px solid #e2e8f0; /* Keep bottom border */
+    padding: 12px 15px; /* Adjust padding */
+     flex-shrink: 0; /* Prevent toolbar shrinking */
+}
+
+.note-editor .ql-container.ql-snow {
+  border: none; /* Remove Quill's default border */
+  flex-grow: 1; /* Allow editor area to fill space */
+  overflow-y: auto; /* Enable scrolling for the editor content */
+  font-size: 16px; /* Set base font size for content */
+  line-height: 1.6;
+}
+
+/* Style the editor area itself */
+.note-editor .ql-editor {
+  padding: 20px; /* Add padding inside the editor */
+  height: 100%; /* Try to make it fill container */
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+/* Placeholder text style */
+.note-editor .ql-editor.ql-blank::before {
+  color: #a0aec0; /* Tailwind gray-500 */
+  font-style: italic;
+  left: 20px; /* Match padding */
+  right: 20px; /* Match padding */
+}
+
+
+.note-editor.placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #a0aec0; /* Tailwind gray-500 */
+  font-size: 1.1em;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+}

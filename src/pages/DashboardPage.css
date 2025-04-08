@@ -1,0 +1,141 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f4f4f9;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #2d3748;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info span {
+  color: #4a5568;
+}
+
+.dashboard-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* NoteList styles */
+.note-list {
+  width: 300px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.note-list-header {
+  padding: 15px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-list-header h3 {
+  margin: 0;
+  color: #2d3748;
+}
+
+.note-list ul {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.note-list li {
+  padding: 15px;
+  border-bottom: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.note-list li:hover {
+  background-color: #f7fafc;
+}
+
+.note-list li.selected {
+  background-color: #ebf8ff;
+}
+
+.note-item-content h4 {
+  margin: 0 0 5px 0;
+  color: #2d3748;
+}
+
+.note-item-content p {
+  margin: 0;
+  color: #718096;
+  font-size: 0.9em;
+}
+
+/* NoteEditor styles */
+.note-editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.editor-header {
+  padding: 15px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.note-title-input {
+  width: 100%;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  color: #2d3748;
+}
+
+.save-status {
+  font-size: 0.8em;
+  color: #718096;
+  margin-top: 5px;
+}
+
+/* Placeholder styles */
+.placeholder-text {
+  padding: 20px;
+  text-align: center;
+  color: #a0aec0;
+  font-style: italic;
+} 
