@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getNotesByFolder, createNote, deleteNote } from "../api/data"; // Import deleteNote
-import "./NoteList.css";
+import { getNotesByFolder, createNote, deleteNote } from "../api/data";
+import NoteEditor from "./NoteEditor";
 
-// Helper to get a plain text snippet
 const getSnippet = (htmlContent) => {
 	const tempDiv = document.createElement("div");
 	tempDiv.innerHTML = htmlContent || "";
@@ -17,47 +16,45 @@ function NoteList({ selectedFolderId, selectedNoteId, onSelectNote, onNotesUpdat
 	const fetchNotes = async (folderId) => {
 		if (!folderId) {
 			setNotes([]);
-			if (onNotesUpdate) onNotesUpdate([]); // Notify parent
+			onNotesUpdate?.([]);
 			return;
 		}
 		setIsLoading(true);
 		try {
 			const fetchedNotes = await getNotesByFolder(folderId);
 			setNotes(fetchedNotes);
-			if (onNotesUpdate) onNotesUpdate(fetchedNotes); // Notify parent about notes list
-			// If no note is selected, or selected note isn't in this folder, select the first note
+			onNotesUpdate?.(fetchedNotes);
+
 			if (
 				fetchedNotes.length > 0 &&
 				(!selectedNoteId || !fetchedNotes.some((n) => n.id === selectedNoteId))
 			) {
-				if (onSelectNote) onSelectNote(fetchedNotes[0].id);
+				onSelectNote?.(fetchedNotes[0].id);
 			} else if (fetchedNotes.length === 0) {
-				if (onSelectNote) onSelectNote(null); // No notes in this folder
+				onSelectNote?.(null);
 			}
 		} catch (error) {
 			console.error(`Failed to fetch notes for folder ${folderId}:`, error);
-			setNotes([]); // Clear notes on error
-			if (onNotesUpdate) onNotesUpdate([]);
-			if (onSelectNote) onSelectNote(null);
+			setNotes([]);
+			onNotesUpdate?.([]);
+			onSelectNote?.(null);
 		} finally {
 			setIsLoading(false);
 		}
 	};
 
-	// Fetch notes when the selected folder changes
 	useEffect(() => {
 		fetchNotes(selectedFolderId);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedFolderId]); // Dependency: selectedFolderId
+	}, [selectedFolderId]);
 
 	const handleCreateNote = async () => {
-		if (!selectedFolderId) return; // Need a folder selected
+		if (!selectedFolderId) return;
 		setIsCreating(true);
 		try {
 			const newNote = await createNote(selectedFolderId);
-			// Refetch notes for the current folder to include the new one and re-sort
 			await fetchNotes(selectedFolderId);
-			if (onSelectNote) onSelectNote(newNote.id); // Select the newly created note
+			onSelectNote?.(newNote.id);
 		} catch (error) {
 			console.error("Failed to create note:", error);
 		} finally {
@@ -66,13 +63,12 @@ function NoteList({ selectedFolderId, selectedNoteId, onSelectNote, onNotesUpdat
 	};
 
 	const handleDeleteNote = async (noteIdToDelete, event) => {
-		event.stopPropagation(); // Prevent note selection when clicking delete
-		if (window.confirm(`Are you sure you want to delete this note?`)) {
-			setIsLoading(true); // Use loading state for deletion
+		event.stopPropagation();
+		if (window.confirm("Are you sure you want to delete this note?")) {
+			setIsLoading(true);
 			try {
 				await deleteNote(noteIdToDelete);
-				await fetchNotes(selectedFolderId); // Refetch notes
-				// Parent (DashboardPage) handles selecting a new note if needed
+				await fetchNotes(selectedFolderId);
 			} catch (error) {
 				console.error("Failed to delete note:", error);
 			} finally {
@@ -81,12 +77,25 @@ function NoteList({ selectedFolderId, selectedNoteId, onSelectNote, onNotesUpdat
 		}
 	};
 
+	const handleNoteSelect = (noteId) => {
+		onSelectNote?.(noteId);
+	};
+
+	const handleTitleChange = (newTitle) => {
+		setNotes((prevNotes) =>
+			prevNotes.map((note) =>
+				note.id === selectedNoteId ? { ...note, title: newTitle } : note
+			)
+		);
+	};
+
 	return (
-		<div className="note-list">
-			<div className="note-list-header">
-				<h3>Notes</h3>
+		<div className="d-flex flex-column h-100">
+			<div className="d-flex justify-content-between align-items-center mb-3">
+				<h5 className="mb-0">Notes</h5>
 				<button
 					onClick={handleCreateNote}
+					className="btn btn-sm btn-success"
 					disabled={!selectedFolderId || isCreating || isLoading}
 					title={!selectedFolderId ? "Select a folder first" : "Create New Note"}
 				>
@@ -96,26 +105,30 @@ function NoteList({ selectedFolderId, selectedNoteId, onSelectNote, onNotesUpdat
 
 			{isLoading && <p>Loading notes...</p>}
 			{!isLoading && !selectedFolderId && (
-				<p className="placeholder-text">Select a folder to see notes.</p>
+				<p className="text-muted">Select a folder to see notes.</p>
 			)}
 			{!isLoading && selectedFolderId && notes.length === 0 && (
-				<p className="placeholder-text">No notes in this folder. Create one!</p>
+				<p className="text-muted">No notes in this folder. Create one!</p>
 			)}
 
-			<ul>
+			<ul className="list-group flex-grow-1 overflow-auto">
 				{notes.map((note) => (
 					<li
 						key={note.id}
-						className={note.id === selectedNoteId ? "selected" : ""}
-						onClick={() => onSelectNote(note.id)}
+						className={`list-group-item d-flex justify-content-between align-items-start ${
+							note.id === selectedNoteId ? "active text-white" : ""
+						}`}
+						onClick={() => handleNoteSelect(note.id)}
+						style={{ cursor: "pointer" }}
 					>
-						<div className="note-item-content">
-							<h4>{note.title || "Untitled Note"}</h4>
-							<p>{getSnippet(note.content).substring(0, 50)}...</p>{" "}
-							{/* Show snippet */}
+						<div className="me-2">
+							<div className="fw-bold">{note.title || "Untitled Note"}</div>
+							<small>{getSnippet(note.content).substring(0, 50)}...</small>
 						</div>
 						<button
-							className="delete-note-btn"
+							className={`btn btn-sm ${
+								note.id === selectedNoteId ? "btn-light" : "btn-outline-danger"
+							}`}
 							onClick={(e) => handleDeleteNote(note.id, e)}
 							title="Delete Note"
 						>
@@ -124,6 +137,12 @@ function NoteList({ selectedFolderId, selectedNoteId, onSelectNote, onNotesUpdat
 					</li>
 				))}
 			</ul>
+			{/* <div className="note-editor">
+				<NoteEditor
+					selectedNoteId={selectedNoteId}
+					onTitleChange={handleTitleChange}
+				/>
+			</div> */}
 		</div>
 	);
 }

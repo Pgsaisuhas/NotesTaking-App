@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage"; // Fixed typo
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
     return (
         <AuthProvider>

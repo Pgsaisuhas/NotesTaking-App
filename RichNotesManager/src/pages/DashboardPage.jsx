@@ -72,39 +72,57 @@ function DashboardPage() {
 	}, []);
 
 	return (
-		<div className="dashboard-container">
-			<header className="dashboard-header">
-				<h1>My Notes App</h1>
-				<div className="user-info">
-					<span>Welcome, {user?.username || "User"}!</span>
-					<button onClick={logout} disabled={authLoading}>
-						{authLoading ? "Logging out..." : "Logout"}
-					</button>
-				</div>
+		<div className="container-fluid py-3">
+			{/* Header */}
+			<header className="d-flex justify-content-between align-items-center bg-light rounded p-3 mb-3 shadow-sm">
+				<h1 className="text-warning fw-bold fs-4 m-0">
+					NotesApp, Welcome {user?.username || "User"}!
+				</h1>
+				<button className="btn btn-dark btn-sm" onClick={logout} disabled={authLoading}>
+					{authLoading ? "Logging out..." : "Logout"}
+				</button>
 			</header>
-			<div className="dashboard-main">
-				<Sidebar
-					selectedFolderId={selectedFolderId}
-					onSelectFolder={handleSelectFolder}
-					onFoldersUpdate={handleFoldersUpdate}
-				/>
-				<NoteList
-					selectedFolderId={selectedFolderId}
-					selectedNoteId={selectedNoteId}
-					onSelectNote={handleSelectNote}
-					onNotesUpdate={handleNotesUpdate}
-					// Pass the current notes list if NoteList needs it for immediate updates
-					// (Current implementation refetches, so not strictly needed here)
-					// currentNotes={notes}
-				/>
-				<NoteEditor
-					selectedNoteId={selectedNoteId}
-					key={selectedNoteId} // Force re-render/remount when note changes
-					onNoteUpdate={handleNoteUpdate}
-				/>
+
+			{/* Main Row */}
+			<div className="row gx-3" style={{ height: "calc(100vh - 120px)" }}>
+				{/* Sidebar */}
+				<div className="col-md-3 d-flex flex-column h-100">
+					<div className="bg-white rounded p-3 shadow-sm h-100 overflow-auto">
+						<Sidebar
+							selectedFolderId={selectedFolderId}
+							onSelectFolder={handleSelectFolder}
+							onFoldersUpdate={handleFoldersUpdate}
+						/>
+					</div>
+				</div>
+
+				{/* Note List */}
+				<div className="col-md-4 d-flex flex-column h-100">
+					<div className="bg-white rounded p-3 shadow-sm h-100 overflow-auto">
+						<NoteList
+							selectedFolderId={selectedFolderId}
+							selectedNoteId={selectedNoteId}
+							onSelectNote={handleSelectNote}
+							onNotesUpdate={handleNotesUpdate}
+						/>
+					</div>
+				</div>
+
+				{/* Note Editor */}
+				<div className="col-md-5 d-flex flex-column h-100">
+					<div className="bg-white rounded p-3 shadow-sm h-100 overflow-auto">
+						<NoteEditor
+							selectedNoteId={selectedNoteId}
+							key={selectedNoteId}
+							onNoteUpdate={handleNoteUpdate}
+						/>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
+
+
 }
 
 export default DashboardPage;
