@@ -1,18 +1,18 @@
 .sidebar {
   padding: 16px;
-  background-color: #f7fafc; /* Tailwind gray-100 */
+  background-color: #1a202c; /* Tailwind gray-900 */
   height: 100%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid #2d3748; /* Tailwind gray-800 */
 }
 
 .sidebar h2 {
   margin: 0 0 16px;
   font-size: 1.25rem;
-  color: #2d3748; /* Tailwind gray-800 */
-  border-bottom: 1px solid #e2e8f0;
+  color: #edf2f7; /* Tailwind gray-100 */
+  border-bottom: 1px solid #2d3748; /* Tailwind gray-800 */
   padding-bottom: 10px;
   font-weight: 600;
 }
@@ -37,12 +37,12 @@
 }
 
 .sidebar li:hover {
-  background-color: #edf2f7; /* Tailwind gray-200 */
+  background-color: #2d3748; /* Tailwind gray-800 */
 }
 
 .sidebar li.selected {
-  background-color: #bee3f8; /* Tailwind blue-200 */
-  color: #2b6cb0; /* Tailwind blue-700 */
+  background-color: #2b6cb0; /* Tailwind blue-700 */
+  color: #bee3f8; /* Tailwind blue-200 */
   font-weight: 600;
 }
 
@@ -53,6 +53,7 @@
   white-space: nowrap;
   margin-right: 8px;
   font-size: 0.95rem;
+  color: #e2e8f0; /* Tailwind gray-200 */
 }
 
 .delete-folder-btn {
@@ -68,8 +69,8 @@
 }
 
 .delete-folder-btn:hover {
-  color: #e53e3e; /* Tailwind red-600 */
-  background-color: #fed7d7; /* Tailwind red-200 */
+  color: #feb2b2; /* Tailwind red-300 */
+  background-color: #742a2a; /* Tailwind red-900 */
 }
 
 .new-folder-form {
@@ -77,26 +78,28 @@
   gap: 6px;
   margin-top: auto;
   padding-top: 16px;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #2d3748; /* Tailwind gray-800 */
 }
 
 .new-folder-form input {
   flex-grow: 1;
   padding: 8px;
-  border: 1px solid #cbd5e0; /* Tailwind gray-300 */
+  background-color: #2d3748; /* Tailwind gray-800 */
+  color: #edf2f7; /* Tailwind gray-100 */
+  border: 1px solid #4a5568; /* Tailwind gray-700 */
   border-radius: 4px;
   font-size: 0.95rem;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .new-folder-form input:focus {
   outline: none;
-  border-color: #3182ce; /* Tailwind blue-600 */
-  box-shadow: 0 0 0 1px #3182ce;
+  border-color: #63b3ed; /* Tailwind blue-400 */
+  box-shadow: 0 0 0 1px #63b3ed;
 }
 
 .new-folder-form button {
-  background-color: #48bb78; /* Tailwind green-500 */
+  background-color: #38a169; /* Tailwind green-600 */
   color: white;
   border: none;
   padding: 8px 12px;
@@ -107,7 +110,7 @@
 }
 
 .new-folder-form button:hover:not(:disabled) {
-  background-color: #38a169; /* Tailwind green-600 */
+  background-color: #2f855a; /* Tailwind green-700 */
 }
 
 .new-folder-form button:disabled {

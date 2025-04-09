@@ -74,11 +74,15 @@ function DashboardPage() {
 	return (
 		<div className="container-fluid py-3">
 			{/* Header */}
-			<header className="d-flex justify-content-between align-items-center bg-light rounded p-3 mb-3 shadow-sm">
-				<h1 className="text-warning fw-bold fs-4 m-0">
+			<header
+				className="d-flex justify-content-between align-items-center  rounded p-3 mb-3 shadow-sm border
+				border-light"
+				style={{ backgroundColor: "#1a202c", color: "#edf2f7" }}
+			>
+				<h1 className="text-white fw-bold fs-4 m-0">
 					NotesApp, Welcome {user?.username || "User"}!
 				</h1>
-				<button className="btn btn-dark btn-sm" onClick={logout} disabled={authLoading}>
+				<button className="btn btn-danger btn-sm" onClick={logout} disabled={authLoading}>
 					{authLoading ? "Logging out..." : "Logout"}
 				</button>
 			</header>
@@ -87,7 +91,10 @@ function DashboardPage() {
 			<div className="row gx-3" style={{ height: "calc(100vh - 120px)" }}>
 				{/* Sidebar */}
 				<div className="col-md-3 d-flex flex-column h-100">
-					<div className="bg-white rounded p-3 shadow-sm h-100 overflow-auto">
+					<div
+						className="border border-light rounded p-3 shadow-sm h-100 overflow-auto"
+						style={{ backgroundColor: "#1a202c", color: "#edf2f7" }}
+					>
 						<Sidebar
 							selectedFolderId={selectedFolderId}
 							onSelectFolder={handleSelectFolder}
@@ -98,7 +105,10 @@ function DashboardPage() {
 
 				{/* Note List */}
 				<div className="col-md-4 d-flex flex-column h-100">
-					<div className="bg-white rounded p-3 shadow-sm h-100 overflow-auto">
+					<div
+						className=" rounded p-3 shadow-sm h-100 overflow-auto border border-light"
+						style={{ backgroundColor: "#1a202c", color: "#edf2f7" }}
+					>
 						<NoteList
 							selectedFolderId={selectedFolderId}
 							selectedNoteId={selectedNoteId}
@@ -109,8 +119,11 @@ function DashboardPage() {
 				</div>
 
 				{/* Note Editor */}
-				<div className="col-md-5 d-flex flex-column h-100">
-					<div className="bg-white rounded p-3 shadow-sm h-100 overflow-auto">
+				<div className="col-md-5 d-flex flex-column h-100 ">
+					<div
+						className="border border-light rounded p-3 shadow-sm h-100 overflow-auto"
+						style={{ backgroundColor: "#1a202c", color: "#edf2f7" }}
+					>
 						<NoteEditor
 							selectedNoteId={selectedNoteId}
 							key={selectedNoteId}

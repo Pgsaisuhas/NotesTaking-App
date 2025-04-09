@@ -3,6 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { getNoteById, updateNote } from "../api/data";
 import debounce from "lodash.debounce";
+import "./quill.css"
 
 function NoteEditor({ selectedNoteId, onNoteUpdate, onTitleChange }) {
 	const [currentNote, setCurrentNote] = useState(null);
@@ -12,6 +13,7 @@ function NoteEditor({ selectedNoteId, onNoteUpdate, onTitleChange }) {
 	const [isSaving, setIsSaving] = useState(false);
 	const [error, setError] = useState(null);
 	const [lastSaved, setLastSaved] = useState(null);
+	const [isEditingTitle, setIsEditingTitle] = useState(false);
 
 	const debouncedSave = useCallback(
 		debounce(async (noteId, newTitle, newContent) => {
@@ -110,21 +112,77 @@ function NoteEditor({ selectedNoteId, onNoteUpdate, onTitleChange }) {
 	if (!selectedNoteId || !currentNote) {
 		return <div className="text-muted p-3">Select a note to start editing.</div>;
 	}
-
+	
 	return (
-		<div className="p-3">
-			{error && <div className="alert alert-danger">{error}</div>}
+		<div
+			className="p-3"
+			style={{ backgroundColor: "#1a202c", color: "#edf2f7", minHeight: "100%" }}
+		>
+			{error && (
+				<div
+					className="alert alert-danger"
+					style={{
+						fontSize: "1.1rem",
+						backgroundColor: "#742a2a",
+						color: "#feb2b2",
+						border: "1px solid #feb2b2",
+					}}
+				>
+					{error}
+				</div>
+			)}
 
 			<div className="d-flex justify-content-between align-items-center mb-2">
 				<input
 					type="text"
 					className="form-control me-3"
-					style={{ flex: 1 }}
+					style={{
+						flex: 1,
+						fontSize: "1.2rem",
+						backgroundColor: "#2d3748",
+						color: "#edf2f7",
+						border: "1px solid #4a5568",
+					}}
 					value={title}
 					onChange={handleTitleChange}
 					placeholder="Note Title"
 				/>
-				<small className="text-muted">
+				<div className="d-flex align-items-center">
+					{isEditingTitle ? (
+						<button
+							className="btn btn-sm ms-2"
+							style={{
+								fontSize: "1rem",
+								backgroundColor: "#38a169",
+								color: "#fff",
+								border: "none",
+							}}
+							onClick={() => {
+								setIsEditingTitle(false);
+								handleTitleChange({ target: { value: title } });
+							}}
+						>
+							Save
+						</button>
+					) : (
+						<button
+							className="btn btn-sm ms-2"
+							style={{
+								fontSize: "1rem",
+								backgroundColor: "transparent",
+								color: "#a0aec0",
+								border: "1px solid #4a5568",
+							}}
+							onClick={() => setIsEditingTitle(true)}
+						>
+							Edit
+						</button>
+					)}
+				</div>
+				<small
+					className="ms-2"
+					style={{ fontSize: "0.9rem", color: "#a0aec0", whiteSpace: "nowrap" }}
+				>
 					{isSaving
 						? "Saving..."
 						: lastSaved
@@ -140,9 +198,16 @@ function NoteEditor({ selectedNoteId, onNoteUpdate, onTitleChange }) {
 				modules={quillModules}
 				formats={quillFormats}
 				placeholder="Start writing your amazing note..."
+				style={{
+					fontSize: "1.2rem",
+					backgroundColor: "#2d3748",
+					color: "#edf2f7",
+					border: "1px solid #4a5568",
+				}}
 			/>
 		</div>
 	);
+
 }
 
 export default NoteEditor;
